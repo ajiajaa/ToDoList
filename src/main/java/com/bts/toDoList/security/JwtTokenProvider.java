@@ -33,13 +33,13 @@ public class JwtTokenProvider {
                 .setSubject(username)
                 .setIssuedAt(now)
                 .setExpiration(validity)
-                .signWith(SignatureAlgorithm.HS256, Base64.getDecoder().decode(secretKey))
+                .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
 
     public String getUsername(String token) {
         Claims claims = Jwts.parser()
-                .setSigningKey(Base64.getDecoder().decode(secretKey))
+                .setSigningKey(secretKey)
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
@@ -48,15 +48,15 @@ public class JwtTokenProvider {
 
     public boolean validateToken(String token) {
         try {
-            Jwts.parser()
-                    .setSigningKey(Base64.getDecoder().decode(secretKey))
-                    .build()
-                    .parseClaimsJws(token);
+            Jwts.parser().setSigningKey(secretKey).build().parseClaimsJws(token);
             return true;
         } catch (SignatureException e) {
             // Log the exception
+            e.printStackTrace();
+        } catch (Exception e) {
+            // Log any other exceptions
+            e.printStackTrace();
         }
         return false;
     }
 }
-

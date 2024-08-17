@@ -38,6 +38,10 @@ public class JwtTokenProvider {
     }
 
     public String getUsername(String token) {
+        if (token.startsWith("Bearer ")) {
+            token = token.substring(7); // Menghapus awalan "Bearer "
+        }
+
         Claims claims = Jwts.parser()
                 .setSigningKey(secretKey)
                 .build()
@@ -45,6 +49,7 @@ public class JwtTokenProvider {
                 .getBody();
         return claims.getSubject();
     }
+
 
     public boolean validateToken(String token) {
         try {

@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface ChecklistRepository extends JpaRepository<Checklist, Long> {
-    List<Checklist> findByUserId(Long userId);
+    List<Checklist> findByUser_Username(String username);
 }

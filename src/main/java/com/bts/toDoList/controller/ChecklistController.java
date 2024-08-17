@@ -17,15 +17,14 @@ public class ChecklistController {
     private ChecklistService checklistService;
 
     @PostMapping
-    public ResponseEntity<Checklist> createChecklist(@RequestBody Checklist checklist) {
-        Checklist createdChecklist = checklistService.createChecklist(checklist);
+    public ResponseEntity<Checklist> createChecklist(@RequestBody Checklist checklist, @RequestHeader("Authorization") String token) {
+        Checklist createdChecklist = checklistService.createChecklist(checklist, token);
         return ResponseEntity.ok(createdChecklist);
     }
-
     @GetMapping
-    public ResponseEntity<List<Checklist>> getAllChecklists() {
-        List<Checklist> checklists = checklistService.getAllChecklists();
-        return ResponseEntity.ok(checklists);
+    public ResponseEntity<List<Checklist>> getChecklist(@RequestHeader("Authorization") String token) {
+        List<Checklist> checklist= checklistService.getAllChecklists();
+        return ResponseEntity.ok(checklist);
     }
 
     @GetMapping("/{id}")
@@ -35,14 +34,14 @@ public class ChecklistController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Checklist> updateChecklist(@PathVariable Long id, @RequestBody Checklist checklist) {
-        Checklist updatedChecklist = checklistService.updateChecklist(id, checklist);
+    public ResponseEntity<Checklist> updateChecklist(@PathVariable Long id, @RequestBody Checklist checklist, @RequestHeader("Authorization") String token) {
+        Checklist updatedChecklist = checklistService.updateChecklist(id, checklist, token);
         return ResponseEntity.ok(updatedChecklist);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteChecklist(@PathVariable Long id) {
-        checklistService.deleteChecklist(id);
+    public ResponseEntity<Void> deleteChecklist(@PathVariable Long id, @RequestHeader("Authorization") String token) {
+        checklistService.deleteChecklist(id, token);
         return ResponseEntity.noContent().build();
     }
 }

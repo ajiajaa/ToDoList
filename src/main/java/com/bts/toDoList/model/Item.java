@@ -1,5 +1,6 @@
 package com.bts.toDoList.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -10,14 +11,15 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String description;
+    @Column
+    private String name;
 
-    @Column(nullable = false)
+    @Column
     private boolean completed = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "checklist_id", nullable = false)
+    @JoinColumn(name = "checklist_id")
+    @JsonIgnore
     private Checklist checklist;
 
     public Long getId() {
@@ -28,12 +30,12 @@ public class Item {
         this.id = id;
     }
 
-    public String getDescription() {
-        return description;
+    public String getName() {
+        return name;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public boolean isCompleted() {
@@ -52,4 +54,3 @@ public class Item {
         this.checklist = checklist;
     }
 }
-
